@@ -1,11 +1,13 @@
 #include "customer.h"
 
+int Customer::total = 0;
+
 Customer::Customer() {}
 Customer::Customer(double arrival_time)
 {
-    this->counter++;
+    this->total++;
     this->arrival_time = arrival_time;
-    this->serial = this->counter;
+    this->serial = this->total;
 }
 
 int Customer::getSerial()
@@ -15,5 +17,5 @@ int Customer::getSerial()
 
 int Customer::getTotalCustomer()
 {
-    return Customer::counter;
+    return Customer::total;
 }

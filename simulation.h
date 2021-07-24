@@ -37,7 +37,7 @@ private:
     ExponentialRandom interArrivalTimeGenerator;
     ExponentialRandom serviceTimeGenerator;
 
-    static int numOfLines;
+    int numOfLines;
 public:
     // Constructor for the simulation class
     Simulation(double inter_arrival, double service_mean, int num_customers);
@@ -57,7 +57,7 @@ public:
     void HandleDepart();
 
     // write to file
-    void entryLog();
+    void entryLog(std::string eventType,double _time, int serial);
 };
 
 #endif

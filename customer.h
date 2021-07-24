@@ -6,12 +6,13 @@ class Customer
 private:
     double arrival_time;
     int serial;
-    static int counter;
+    static int total;
 
 public:
     Customer();
     Customer(double arrival_time);
     int getSerial();
+    
     static int getTotalCustomer();
 };
 
