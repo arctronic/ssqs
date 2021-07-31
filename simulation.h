@@ -5,6 +5,7 @@
 #include "customer.h"
 #include "event.h"
 #include "exponential_random_generator.h"
+#include "stat.h"
 enum ServerStatus
 {
     IDLE,
@@ -36,8 +37,9 @@ private:
 
     ExponentialRandom interArrivalTimeGenerator;
     ExponentialRandom serviceTimeGenerator;
-
+    Stat stat;
     int numOfLines;
+
 public:
     // Constructor for the simulation class
     Simulation(double inter_arrival, double service_mean, int num_customers);
@@ -57,7 +59,7 @@ public:
     void HandleDepart();
 
     // write to file
-    void entryLog(std::string eventType,double _time, int serial);
+    void entryLog(std::string eventType, double _time, int serial);
 };
 
 #endif

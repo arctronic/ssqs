@@ -1,0 +1,68 @@
+No	Event Type	Current Time	Customer Serial	Server Status	Queue Size
+ 1	 Arrival	 2.71937	         1	           Idle	           0
+ 2	 Service	 2.71937	         1	           Busy	           0
+ 3	 Arrival	 3.11694	         2	           Busy	           1
+ 4	Departure	 3.67603	         1	           Idle	           1
+ 5	 Service	 3.67603	         2	           Busy	           0
+ 6	 Arrival	 7.84202	         3	           Busy	           1
+ 7	Departure	 12.7159	         2	           Idle	           1
+ 8	 Service	 12.7159	         3	           Busy	           0
+ 9	Departure	 13.7806	         3	           Idle	           0
+10	 Arrival	 19.3669	         4	           Idle	           0
+11	 Service	 19.3669	         4	           Busy	           0
+12	 Arrival	 21.7256	         5	           Busy	           1
+13	Departure	 25.0314	         4	           Idle	           1
+14	 Service	 25.0314	         5	           Busy	           0
+15	Departure	 28.7856	         5	           Idle	           0
+16	 Arrival	 30.3856	         6	           Idle	           0
+17	 Service	 30.3856	         6	           Busy	           0
+18	 Arrival	 34.2139	         7	           Busy	           1
+19	 Arrival	  34.645	         8	           Busy	           2
+20	Departure	 36.9268	         6	           Idle	           2
+21	 Service	 36.9268	         7	           Busy	           1
+22	 Arrival	 40.2154	         9	           Busy	           2
+23	Departure	 42.3871	         7	           Idle	           2
+24	 Service	 42.3871	         8	           Busy	           1
+25	 Arrival	 43.0107	        10	           Busy	           2
+26	Departure	 43.0508	         8	           Idle	           2
+27	 Service	 43.0508	         9	           Busy	           1
+28	 Arrival	 43.6477	        11	           Busy	           2
+29	Departure	 50.9286	         9	           Idle	           2
+30	 Service	 50.9286	        10	           Busy	           1
+31	 Arrival	 54.2314	        12	           Busy	           2
+32	 Arrival	 62.7539	        13	           Busy	           3
+33	Departure	 66.3766	        10	           Idle	           3
+34	 Service	 66.3766	        11	           Busy	           2
+35	 Arrival	 66.8956	        14	           Busy	           3
+36	Departure	 67.8751	        11	           Idle	           3
+37	 Service	 67.8751	        12	           Busy	           2
+38	 Arrival	 69.8649	        15	           Busy	           3
+39	Departure	 76.2244	        12	           Idle	           3
+40	 Service	 76.2244	        13	           Busy	           2
+41	Departure	 76.9094	        13	           Idle	           2
+42	 Service	 76.9094	        14	           Busy	           1
+43	 Arrival	 78.4987	        16	           Busy	           2
+44	Departure	 79.8716	        14	           Idle	           2
+45	 Service	 79.8716	        15	           Busy	           1
+46	Departure	 84.2934	        15	           Idle	           1
+47	 Service	 84.2934	        16	           Busy	           0
+48	 Arrival	  84.677	        17	           Busy	           1
+49	 Arrival	 88.6185	        18	           Busy	           2
+50	Departure	 90.5816	        16	           Idle	           2
+51	 Service	 90.5816	        17	           Busy	           1
+52	Departure	 90.8556	        17	           Idle	           1
+53	 Service	 90.8556	        18	           Busy	           0
+54	Departure	 93.6452	        18	           Idle	           0
+55	 Arrival	 96.3751	        19	           Idle	           0
+56	 Service	 96.3751	        19	           Busy	           0
+57	Departure	 97.1111	        19	           Idle	           0
+58	 Arrival	 99.7792	        20	           Idle	           0
+59	 Service	 99.7792	        20	           Busy	           0
+60	Departure	 99.9052	        20	           Idle	           0
+Total customer: 20
+Total simulation time: 99.905222
+avg Inter arrival: 4.852992
+avg service time: 4.230074
+avg queue delay: 1.468227
+avg queue len: 1.150000
+total utilization: 84.681744

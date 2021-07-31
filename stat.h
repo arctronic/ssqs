@@ -1,28 +1,34 @@
 #ifndef STAT_H
 #define STAT_H
+#include <iostream>
+#include <bits/stdc++.h>
+class StatVar
+{
+public:
+    std::string type;
+    double currentTime;
+    int customerID;
+    std::string status;
+    int qlen;
+    StatVar(std::string type,double currentTime,int customerID,std::string status,int qlen);
+};
 
 class Stat
 {
-private:
-    double totalDelay;
-    double totalServerIdle;
-    double totalQueueLen;
-    double totalServiceTime;
-    double totalInterArrival;
-    double totalSimulationTime;
-
-
 public:
+    std::vector<StatVar> holder;
+    double totalSimulationTime;
+    int totalCustomer;
+
+    double totalInterArrivalTime;
+    double totalServiceTime;
+    double totalQueueDelay;
+    double totalQueueLength;
+    double utilization;
     Stat();
-
-    void SetTotalDelay(double time);
-    void SetTotalServerIdle(double time);
-    void SetTotalQueueLen(double time);
-    void SetTotalServiceTime(double time);
-    void SetTotalInterArrival(double time);
-    void SetTotalSimulationTime(double time);
-
-    
+    Stat(int totalCustomer);
+    void pushRecord(StatVar statHolder);
+    void generateStat();
 };
 
 #endif

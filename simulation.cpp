@@ -1,5 +1,6 @@
 #include "simulation.h"
-#include<iomanip>
+#include "stat.h"
+#include <iomanip>
 Simulation::Simulation(double inter_arrival, double service_mean, int num_customers)
 {
     this->inter_arrivale_time_mean = inter_arrival;
@@ -8,6 +9,7 @@ Simulation::Simulation(double inter_arrival, double service_mean, int num_custom
 
     this->interArrivalTimeGenerator.SetMean(this->inter_arrivale_time_mean);
     this->serviceTimeGenerator.SetMean(this->service_time_mean);
+    this->stat.totalCustomer = num_customers;
 }
 
 void Simulation::init()
@@ -22,7 +24,10 @@ void Simulation::init()
 
 void Simulation::entryLog(std::string eventType, double _time, int serial)
 {
-    std::cout<<std::setw(2)<< ++numOfLines << "\t"<<std::setw(8) << eventType << "\t"<<std::setw(8) << _time << "\t"<<std::setw(10) << serial << "\t"<<std::setw(15) << (server_status == ServerStatus::IDLE ? "Idle" : "Busy") << "\t"<<std::setw(12) << this->service_queue.size() << std::endl;
+    std::cout << std::setw(2) << ++numOfLines << "\t" << std::setw(8) << eventType << "\t" << std::setw(8) << _time << "\t" << std::setw(10) << serial << "\t" << std::setw(15) << (server_status == ServerStatus::IDLE ? "Idle" : "Busy") << "\t" << std::setw(12) << this->service_queue.size() << std::endl;
+    std::string status = server_status == ServerStatus::IDLE ? "Idle" : "Busy";
+    StatVar temp(eventType, _time, serial, status, this->service_queue.size());
+    this->stat.pushRecord(temp);
 }
 
 void Simulation::updateTime(double _time)
@@ -47,6 +52,8 @@ void Simulation::Run()
             HandleDepart();
         }
     }
+    this->stat.totalSimulationTime = this->systemClock;
+    this->stat.generateStat();
 }
 
 void Simulation::HandleArrival()
