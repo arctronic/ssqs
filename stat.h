@@ -25,6 +25,12 @@ public:
     double totalQueueDelay;
     double totalQueueLength;
     double utilization;
+
+    double avgInterArrivalTime;
+    double avgServiceTime;
+    double avgQueueDelay;
+    double avgQueueLength;
+    
     Stat();
     Stat(int totalCustomer);
     void pushRecord(StatVar statHolder);

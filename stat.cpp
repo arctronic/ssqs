@@ -1,5 +1,7 @@
 #include "stat.h"
 #include <stdio.h>
+#include <iostream>
+#include <fstream>
 
 StatVar::StatVar(std::string type, double currentTime, int customerID, std::string status, int qlen)
 {
@@ -79,11 +81,19 @@ void Stat::generateStat()
         }
     }
 
-    printf("Total customer: %d\n",this->totalCustomer);
-    printf("Total simulation time: %lf\n",this->totalSimulationTime);
-    printf("avg Inter arrival: %lf\n", this->totalInterArrivalTime / ((double)this->totalCustomer));
-    printf("avg service time: %lf\n", this->totalServiceTime / this->totalCustomer);
-    printf("avg queue delay: %lf\n", this->totalQueueDelay / (double)delayCounter);
-    printf("avg queue len: %lf\n", this->totalQueueLength / (3 * totalCustomer));
-    printf("total utilization: %lf\n", 100 * (totalServiceTime / totalSimulationTime));
+    // printf("Total customer: %d\n",this->totalCustomer);
+    // printf("Total simulation time: %lf\n",this->totalSimulationTime);
+    // printf("avg Inter arrival: %lf\n", this->totalInterArrivalTime / ((double)this->totalCustomer));
+    // printf("avg service time: %lf\n", this->totalServiceTime / this->totalCustomer);
+    // printf("avg queue delay: %lf\n", this->totalQueueDelay / (double)delayCounter);
+    // printf("avg queue len: %lf\n", this->totalQueueLength / (3 * totalCustomer));
+    // printf("total utilization: %lf\n", 100 * (totalServiceTime / totalSimulationTime));
+    this->avgInterArrivalTime = this->totalInterArrivalTime / ((double)this->totalCustomer);
+    this->avgServiceTime = this->totalServiceTime / this->totalCustomer;
+    this->avgQueueDelay = this->totalQueueDelay / (double)delayCounter;
+    this->avgQueueLength = this->totalQueueLength / (3 * totalCustomer);
+    this->utilization = 100 * (totalServiceTime / totalSimulationTime);
+    std::ofstream statistics("Statistics.csv");
+    statistics<<"Total Customer,Total Simulation Time,Avg Inter Arrival Time, Avg Service Time, Avg Queue Delay,Avg Queue length,Server Utilization"<<std::endl;
+    statistics<<(int)totalCustomer<<","<<totalSimulationTime<<","<<avgInterArrivalTime<<","<<avgServiceTime<<","<<avgQueueDelay<<","<<avgQueueLength<<","<<utilization<<"%"<<std::endl;
 }
