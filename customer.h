@@ -10,6 +10,7 @@ private:
 
 public:
     Customer();
+    int server_no;
     Customer(double arrival_time);
     int getSerial();
     

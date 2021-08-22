@@ -11,8 +11,8 @@ Simulation::Simulation(double inter_arrival, double service_mean, int num_custom
     this->serviceTimeGenerator.SetMean(this->service_time_mean);
     this->stat.totalCustomer = num_customers;
     this->server.setServerStatus(ServerStatus::IDLE);
-    this->numsOfServer = 3;
-    this->servers.resize(3);
+    this->numsOfServer = 2;
+    this->servers.resize(2);
 }
 
 void Simulation::init()
@@ -24,14 +24,23 @@ void Simulation::init()
     // now the program need to schedule an arrival event
     Event arrival_event(EventType::ARRIVAL, this->systemClock + this->interArrivalTimeGenerator.RandomNumber());
     this->event_queue.push(arrival_event);
+    for (int i = 0; i < this->numsOfServer; i++)
+    {
+        this->servers[i].setServerStatus(ServerStatus::IDLE);
+    }
 }
 
 void Simulation::entryLog(std::string eventType, double _time, int serial)
 {
-    std::cout << std::setw(2) << ++this->numOfLines << "\t" << std::setw(8) << eventType << "\t" << std::setw(8) << _time << "\t" << std::setw(10) << serial << "\t" << std::setw(15) << (this->server.getServerStatus() == ServerStatus::IDLE ? "Idle" : "Busy") << "\t" << std::setw(12) << this->service_queue.size() << std::endl;
-    std::string status = this->server.getServerStatus() == ServerStatus::IDLE ? "Idle" : "Busy";
-    StatVar temp(eventType, _time, serial, status, this->service_queue.size());
-    this->stat.pushRecord(temp);
+    std::cout << std::setw(2) << ++this->numOfLines << "\t" << std::setw(8) << eventType << "\t" << std::setw(8) << _time << "\t" << std::setw(10) << serial << "\t" << std::setw(15) << (this->server.getServerStatus() == ServerStatus::IDLE ? "Idle" : "Busy") << "\t" << std::setw(12) << this->service_queue.size() << "\t";
+    for (int i = 0; i < numsOfServer; i++)
+    {
+        std::cout << (this->servers[i].getServerStatus() == ServerStatus::IDLE ? "Idle" : "Busy") << "\t";
+        std::string status = this->servers[i].getServerStatus() == ServerStatus::IDLE ? "Idle" : "Busy";
+        StatVar temp(eventType, _time, serial, status, this->service_queue.size());
+        this->stat.pushRecord(temp);
+    }
+    std::cout << "\n";
 }
 
 void Simulation::updateTime(double _time)
@@ -69,37 +78,54 @@ void Simulation::HandleArrival()
         Event arrival_event(EventType::ARRIVAL, _time);
         this->event_queue.push(arrival_event);
     }
-    if (this->server.getServerStatus() == ServerStatus::BUSY)
+    int flag = 0;
+    for (int i = 0; i < this->numsOfServer; i++)
+    {
+        if (this->servers[i].getServerStatus() == ServerStatus::IDLE)
+        {
+            entryLog("Arrival", this->systemClock, customer.getSerial());
+
+            this->currently_serving = customer;
+            this->currently_serving.server_no = i;
+
+            this->servers[i].setServerStatus(ServerStatus::BUSY);
+
+            double _time = this->systemClock + this->serviceTimeGenerator.RandomNumber();
+            Event depart_event(EventType::DEPARTURE, _time);
+            this->event_queue.push(depart_event);
+            entryLog(i==0? "Service0":"Service1", this->systemClock, customer.getSerial());
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
     {
         this->service_queue.push(customer);
         entryLog("Arrival", this->systemClock, customer.getSerial());
-    }
-    else if (this->server.getServerStatus() == ServerStatus::IDLE)
-    {
-        entryLog("Arrival", this->systemClock, customer.getSerial());
-
-        this->currently_serving = customer;
-
-        this->server.setServerStatus(ServerStatus::BUSY);
-
-        double _time = this->systemClock + this->serviceTimeGenerator.RandomNumber();
-        Event depart_event(EventType::DEPARTURE, _time);
-        this->event_queue.push(depart_event);
-        entryLog("Service", this->systemClock, customer.getSerial());
     }
 }
 
 void Simulation::HandleDepart()
 {
-    this->server.setServerStatus(ServerStatus::IDLE);
+    this->servers[this->currently_serving.server_no].setServerStatus(ServerStatus::IDLE);
+    int idx = this->currently_serving.server_no;
     entryLog("Departure", this->systemClock, this->currently_serving.getSerial());
     if (!(this->service_queue.empty()))
     {
         Customer customer = service_queue.front();
-        this->currently_serving = customer;
-        this->service_queue.pop();
 
-        this->server.setServerStatus(ServerStatus::BUSY);
+        this->service_queue.pop();
+        for (int i = 0; i < this->numsOfServer; i++)
+        {
+            if (this->servers[i].getServerStatus() == ServerStatus::IDLE)
+            {
+                this->servers[i].setServerStatus(ServerStatus::BUSY);
+                customer.server_no = i;
+                this->currently_serving = customer;
+                this->currently_serving.server_no=i;
+                break;
+            }
+        }
         double _time = this->systemClock + this->serviceTimeGenerator.RandomNumber();
         Event departure(EventType::DEPARTURE, _time);
         this->event_queue.push(departure);
